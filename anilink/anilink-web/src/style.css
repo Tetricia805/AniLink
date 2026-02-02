@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 220 20% 98%;
+  --foreground: 222 28% 15%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222 28% 15%;
+
+  --muted: 220 18% 94%;
+  --muted-foreground: 215 14% 42%;
+
+  --primary: 158 46% 35%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 212 54% 38%;
+  --secondary-foreground: 0 0% 100%;
+  --accent: 156 40% 92%;
+  --accent-foreground: 158 44% 24%;
+
+  --border: 220 16% 90%;
+  --input: 220 16% 90%;
+  --ring: 158 46% 35%;
+
+  --destructive: 0 74% 54%;
+  --destructive-foreground: 0 0% 100%;
+
+  --success: 145 63% 40%;
+  --success-foreground: 0 0% 100%;
+  --warning: 35 92% 55%;
+  --warning-foreground: 24 29% 15%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--background));
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}

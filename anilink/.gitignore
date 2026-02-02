@@ -1,40 +1,25 @@
-# Dependencies
-node_modules/
-package-lock.json
+# OS
+.DS_Store
 
-# Environment variables
+# Node
+node_modules/
+dist/
+.vite/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Env
 .env
 .env.local
-.env.production
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-
-# OS files
-.DS_Store
-Thumbs.db
+.env.*.local
 
 # IDE
-.vscode/
 .idea/
-*.swp
-*.swo
 
-# Build files
-dist/
-build/
-
-# MongoDB data (if running locally)
-data/
-
-# AI Models
-models/*.json
-models/*.h5
-models/*.pb
-
-# Temporary files
-tmp/
-temp/
-
+# Misc
+*.log
+coverage/
