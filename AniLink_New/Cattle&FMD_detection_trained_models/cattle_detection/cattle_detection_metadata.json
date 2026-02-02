@@ -1,0 +1,7 @@
+{
+  "model_name": "Cattle Detection Model",
+  "architecture": "mobilenet_v2",
+  "image_size": 224,
+  "validation_accuracy": 0.9168399168399168,
+  "exports": {}
+}

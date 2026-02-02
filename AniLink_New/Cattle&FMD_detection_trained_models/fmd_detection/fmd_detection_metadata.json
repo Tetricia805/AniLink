@@ -1,0 +1,7 @@
+{
+  "model_name": "FMD Detection Model",
+  "architecture": "mobilenet_v2",
+  "image_size": 224,
+  "validation_accuracy": 0.9746835443037974,
+  "exports": {}
+}
