@@ -1,0 +1,109 @@
+services:
+  model-service:
+    build: ./model-service
+    container_name: anilink_model_service
+    volumes:
+      - ./models:/models:ro
+    environment:
+      MODEL_CATTLE_PATH: /models/cattle_detection.onnx
+      MODEL_FMD_PATH: /models/fmd_detection.onnx
+    expose:
+      - "9002"
+    # Optional: uncomment for local debugging
+    # ports:
+    #   - "9002:9002"
+    command: uvicorn main:app --host 0.0.0.0 --port 9002
+
+  db:
+    image: postgres:15-alpine
+    container_name: anilink_dev_db
+    environment:
+      POSTGRES_USER: anilink
+      POSTGRES_PASSWORD: anilink123
+      POSTGRES_DB: anilink_db
+    ports:
+      - "54320:5432"  # Changed to 54320 to avoid Windows port conflict
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U anilink"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio:latest
+    container_name: anilink_dev_minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data_dev:/data
+    # MinIO image has no curl; backend tolerates MinIO not ready at startup
+
+  # Runs once on startup: migrations + seed. Backend waits for this to complete.
+  init:
+    build: .
+    container_name: anilink_dev_init
+    command: sh -c "sleep 15 && alembic upgrade head && python scripts/seed_data.py"
+    volumes:
+      - .:/app
+    environment:
+      DATABASE_URL: postgresql://anilink:anilink123@db:5432/anilink_db
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      MINIO_BUCKET_NAME: anilink-uploads
+      SECRET_KEY: dev-secret-key-change-in-production
+    depends_on:
+      db:
+        condition: service_healthy
+      minio:
+        condition: service_started
+    restart: "no"
+
+  backend:
+    build: .
+    container_name: anilink_dev_backend
+    command: sh -c "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://anilink:anilink123@db:5432/anilink_db
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      MINIO_BUCKET_NAME: anilink-uploads
+      SECRET_KEY: dev-secret-key-change-in-production
+      FRONTEND_ORIGIN: http://localhost:5173
+      DEBUG: "True"
+      CORS_ORIGINS: http://localhost:3000,http://localhost:5173,http://localhost:8080,http://127.0.0.1:5173,http://127.0.0.1:3000
+      MODEL_SERVICE_URL: http://model-service:9002
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      minio:
+        condition: service_started
+      model-service:
+        condition: service_started
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: anilink_dev_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@anilink.ug
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data_dev:
+  minio_data_dev:

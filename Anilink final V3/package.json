@@ -1,0 +1,9 @@
+{
+  "name": "anilink-monorepo",
+  "private": true,
+  "scripts": {
+    "mobile": "cd apps/mobile && npm run start",
+    "mobile:install": "cd apps/mobile && npm install"
+  },
+  "description": "AniLink monorepo: web (anilink-web), mobile (apps/mobile), backend, shared (packages/shared)"
+}

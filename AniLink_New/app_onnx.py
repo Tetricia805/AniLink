@@ -67,9 +67,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Model paths (ONNX files)
-MOBILE_APP_DIR = './mobile_app_models'
-CATTLE_ONNX_PATH = os.path.join(MOBILE_APP_DIR, 'cattle_detection.onnx')
-FMD_ONNX_PATH = os.path.join(MOBILE_APP_DIR, 'fmd_detection.onnx')
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+MODELS_DIR = os.path.join(SCRIPT_DIR, 'Cattle&FMD_detection_trained_models')
+CATTLE_ONNX_PATH = os.path.join(MODELS_DIR, 'cattle_detection.onnx')
+FMD_ONNX_PATH = os.path.join(MODELS_DIR, 'fmd_detection.onnx')
 
 IMAGE_SIZE = 224
 MEAN = np.array([0.485, 0.456, 0.406])
