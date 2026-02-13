@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -51,7 +51,7 @@ export function RegisterPage() {
     return "OWNER";
   });
 
-  const { register, handleSubmit, formState, watch, setValue } = useForm<RegisterFormValues>({
+  const { register, handleSubmit, formState, watch, setValue, control } = useForm<RegisterFormValues>({
     defaultValues: {
       role: role,
       animalTypes: [],
@@ -339,7 +339,18 @@ export function RegisterPage() {
 
               {/* Terms */}
               <div className="flex items-start space-x-2">
-                <Checkbox id="terms" {...register("terms")} />
+                <Controller
+                  name="terms"
+                  control={control}
+                  rules={{ required: "You must accept the terms and conditions" }}
+                  render={({ field }) => (
+                    <Checkbox
+                      id="terms"
+                      checked={field.value}
+                      onCheckedChange={(checked) => field.onChange(checked === true)}
+                    />
+                  )}
+                />
                 <Label htmlFor="terms" className="text-sm font-normal cursor-pointer">
                   I agree to the{" "}
                   <Link to="/terms" className="text-primary hover:underline">
@@ -352,7 +363,7 @@ export function RegisterPage() {
                 </Label>
               </div>
               {formState.errors.terms && (
-                <p className="text-xs text-destructive">You must accept the terms</p>
+                <p className="text-xs text-destructive">{formState.errors.terms.message}</p>
               )}
 
               <Button type="submit" className="w-full" disabled={isLoading}>
