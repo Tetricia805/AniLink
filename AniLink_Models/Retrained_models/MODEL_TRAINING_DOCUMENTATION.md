@@ -1,7 +1,7 @@
 # AniLink Model Training Documentation
 ## Complete Technical Guide: From Data Collection to Model Deployment
 
----
+
 
 ## Table of Contents
 
@@ -16,7 +16,7 @@
 9. [Training History and Iterations](#training-history-and-iterations)
 10. [Technical Specifications](#technical-specifications)
 
----
+
 
 ## Project Overview
 
@@ -27,7 +27,7 @@
 
 Both models are optimized for mobile deployment, using lightweight architectures suitable for smartphone inference.
 
----
+
 
 ## Model Architecture
 
@@ -60,7 +60,7 @@ Output: [Class 0 probability, Class 1 probability]
 3. **Accuracy**: Strong performance despite small size
 4. **Transfer Learning**: Pre-trained weights accelerate training
 
----
+
 
 ## Dataset Collection and Preparation
 
@@ -73,6 +73,18 @@ Output: [Class 0 probability, Class 1 probability]
      - Healthy cattle images
      - Cattle in different poses and environments
      - Various breeds and ages
+
+       
+**Sources**
+Data was combined from some the following datasets
+https://www.kaggle.com/datasets/devang03mgr/cattle-diseases-datasets
+https://www.kaggle.com/datasets/wasimfaraz/fmd-cattle-dataset
+https://www.kaggle.com/datasets/magantirajasri/cattle-diseases-dataset
+https://www.kaggle.com/datasets/wasimfaraz/cattle-foot-and-mouth-disease-fmd
+(https://www.frontiersin.org/journals/artificial-intelligence/articles/10.3389/frai.2024.1446368/full#h14) for UG execpt
+https://www.kaggle.com/datasets/alessiocorrado99/animals10
+https://www.kaggle.com/datasets/trainingdatapro/cows-detection-dataset?select=annotations.xml
+
 
 2. **FMD Dataset Integration** (Added in retraining)
    - **4,426 FMD images** integrated into cattle class
@@ -126,7 +138,7 @@ The FMD dataset is organized as:
 - Various image sizes (resized to 224×224 during preprocessing)
 - Balanced distribution between healthy and infected classes
 
----
+
 
 ## Data Preprocessing and Augmentation
 
@@ -177,7 +189,7 @@ Validation and test sets use minimal preprocessing (no augmentation):
 
 This ensures fair evaluation without data leakage from augmentation.
 
----
+
 
 ## Training Procedures
 
@@ -269,7 +281,7 @@ For each epoch:
 3. Generate confusion matrix
 4. Calculate final metrics
 
----
+
 
 ## Evaluation Methods
 
@@ -318,7 +330,7 @@ For each epoch:
    - Confusion matrix heatmap
    - Precision/Recall/F1 curves
 
----
+
 
 ## Model Performance
 
@@ -361,7 +373,7 @@ For each epoch:
 - Binary classification: Healthy vs Infected
 - Optimized for detecting FMD symptoms
 
----
+
 
 ## Model Export and Deployment
 
@@ -442,7 +454,7 @@ Models are exported in multiple formats for different use cases:
 - `fmd_detection.onnx` (252 KB)
 - `fmd_detection.onnx.data` (8.5 MB)
 
----
+
 
 ## Training History and Iterations
 
@@ -481,7 +493,7 @@ Models are exported in multiple formats for different use cases:
 4. **FMD Integration**: Integrated FMD dataset into cattle class
 5. **Final Retraining**: Current model with 94.07% accuracy
 
----
+
 
 ## Technical Specifications
 
@@ -578,7 +590,7 @@ AniLink_2/
    - Optimized for mobile deployment
    - Creates both `.onnx` and `.onnx.data` files
 
----
+
 
 ## Summary
 
@@ -630,13 +642,12 @@ Potential areas for enhancement:
 5. Multi-class classification (different diseases)
 6. Edge device optimization (TensorFlow Lite, Core ML)
 
----
+
 
 ## Conclusion
 
 The AniLink models represent a complete end-to-end machine learning pipeline, from data collection through model deployment. The use of transfer learning with MobileNetV2, comprehensive data augmentation, and careful hyperparameter tuning has resulted in highly accurate models suitable for mobile deployment. The integration of FMD dataset into cattle detection ensures robust performance across all cattle states, making the system reliable for real-world veterinary applications.
 
----
 
 **Document Version**: 1.0  
 **Last Updated**: February 2026  
