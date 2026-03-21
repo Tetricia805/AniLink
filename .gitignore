@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+training_env/
+.venv/
+env/
+
+# Generated training outputs
+pipeline_output/models/*.pt
+pipeline_output/logs/
+pipeline_output/results/
+
+# Large image datasets
+cattle_healthy/
+cattle_infected/
+not_cattle_animals/
+not_cattle_text_images/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local config
+local_config.py
+*.env
